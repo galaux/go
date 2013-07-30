@@ -5,4 +5,4 @@ build:
 
 run:
 	./test
-	@echo -e '\n\nWaiting for source change'
+	@echo -e '\nWaiting for source change'
