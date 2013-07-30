@@ -2,7 +2,11 @@ package main
 
 import (
   "fmt"
+  "io/ioutil"
+  "strconv"
+  "strings"
 //  "os"
+  "time"
 )
 
 var Max_depth = 10
@@ -48,9 +52,9 @@ func quicksort(list []int, start int, end int) []int {
     os.Exit(1)
   }
   */
-  fmt.Println("quicksort", list, ",", start, ",", end)
+  //fmt.Println("quicksort", list, ",", start, ",", end)
   pivotIdx := getPivotIdx(list, start, end)
-  fmt.Printf("Pivot: list[%v] = %v\n", pivotIdx, list[pivotIdx])
+  //fmt.Printf("Pivot: list[%v] = %v\n", pivotIdx, list[pivotIdx])
 
   // Swap pivot for first position
   tmp := list[start]
@@ -68,9 +72,37 @@ func quicksort(list []int, start int, end int) []int {
   return partList
 }
 
+func readFile(fname string) (nums []int, err error) {
+  b, err := ioutil.ReadFile(fname)
+  if err != nil { return nil, err }
+
+  lines := strings.Split(string(b), "\r\n")
+  // Assign cap to avoid resize on every append.
+  nums = make([]int, 0, len(lines))
+
+  for _, l := range lines {
+    // Empty line occurs at the end of the file when we use Split.
+    if len(l) == 0 { continue }
+    // Atoi better suits the job when we know exactly what we're dealing
+    // with. Scanf is the more general option.
+    n, err := strconv.Atoi(l)
+            if err != nil { return nil, err }
+    nums = append(nums, n)
+  }
+
+  return nums, nil
+}
+
 func main() {
   fmt.Println("Starting")
-  list := []int {4, 3, 2, 6, 1, 5}
-  fmt.Println(quicksort(list, 0, len(list) - 1))
+  list, err := readFile("./QuickSort.txt")
+  if err != nil { panic(err) }
+  fmt.Println("Found", len(list), "integers")
+
+  t0 := time.Now()
+  res := quicksort(list, 0, len(list) - 1)
+  t1 := time.Now()
+  fmt.Println(res)
+  fmt.Printf("The call took %v to run.\n", t1.Sub(t0))
   fmt.Println("Done")
 }
