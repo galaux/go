@@ -5,20 +5,43 @@ import (
   "io/ioutil"
   "strconv"
   "strings"
-  //"os"
   "time"
+  "math/rand"
 )
 
-var Max_depth = 10
-var Depth     =  0
+var r = rand.New(rand.NewSource(99))
 
-//func getPivotIdx(list []int, start int, end int) int {
-//  return 0
-//}
-
+// Dumb pivot chosen as the first one of the sub array we partition
 func getPivotIdx(list *[]int, start int, end int) int {
   return start
 }
+
+// Chose a random pivot
+//func getPivotIdx(list *[]int, start int, end int) int {
+//  return start + r.Intn(end - start)
+//}
+
+// Chose the median of the (first, middle, last) elements
+//func getPivotIdx(list *[]int, start int, end int) int {
+//  var medianIdx int = int((end - start) / 2)
+//  min := start
+//  max := end
+//  if (*list)[end] < (*list)[start] {
+//    min = end
+//    max = start
+//  }
+//  fmt.Println(min, medianIdx, max)
+//  if (*list)[medianIdx] < (*list)[min] {
+//    return min
+//  } else {
+//    if (*list)[medianIdx] < (*list)[max] {
+//      return max
+//    } else {
+//      return medianIdx
+//    }
+//  }
+//  return start + r.Intn(end - start)
+//}
 
 // start: index of list to start partitionning (included)
 // end  : index of list to end partitionning   (included)
@@ -88,16 +111,11 @@ func main() {
 
   list, err := readFile("./QuickSort.txt")
   if err != nil { panic(err) }
-  //list := []int{3, 5, 4, 1, 6, 7, 2}
   fmt.Println("Found", len(list), "integers")
 
   t0 := time.Now()
   quicksort(&list, 0, len(list) - 1)
   t1 := time.Now()
-  fmt.Println("Done. FYI, the resulting array has size", len(list))
   fmt.Println(list)
   fmt.Printf("The call took %v to run.\n", t1.Sub(t0))
-
-
-  fmt.Println("Done")
 }
