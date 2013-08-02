@@ -109,7 +109,7 @@ func readFile(fname string) (nums []int, err error) {
 func main() {
   fmt.Println("Starting")
 
-  list, err := readFile("./QuickSort.txt")
+  list, err := readFile("./resources/QuickSort.txt")
   if err != nil { panic(err) }
   fmt.Println("Found", len(list), "integers")
 
