@@ -87,6 +87,7 @@ func quicksort(list *[]int, start int, end int) {
   quicksort(list, newPivotIdx + 1, end)
 }
 
+// Borrowed from http://stackoverflow.com/a/9863218
 func readFile(fname string) (nums []int, err error) {
   b, err := ioutil.ReadFile(fname)
   lines := strings.Split(string(b), "\r\n")
